@@ -1,0 +1,7 @@
+!ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ''b
+!ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+! git config --global user.email "20.ihshan@gmail.com "
+! git  --global user.name "ihshan00"
+!cat ~/.ssh/id_rsa.pub
+!ssh -T git@github.com
+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
