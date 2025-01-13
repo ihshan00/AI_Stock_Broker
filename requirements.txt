@@ -2,3 +2,9 @@ pandas
 numpy
 virtualenv
 huggingface
+langchain-community
+pinecone
+pymupdf
+sentence_transformers
+tiktoken
+langchain_pinecone
