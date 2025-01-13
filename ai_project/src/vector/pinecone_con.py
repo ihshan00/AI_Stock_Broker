@@ -10,7 +10,7 @@ from sentence_transformers import SentenceTransformer
 class PineconeStore:
     def __init__(self, environment="us-east-1"):
         # Load API key from environment variables
-        pinecone_api_key = "pcsk_4mkcnx_Eay9hXXKjz8DimVPPf2bG83G9uCFgS9XYtPtCnPW3JcaeaE1KwLVR8aeJdBDtuL"
+        pinecone_api_key = None
         if not pinecone_api_key:
             raise ValueError("PINECONE_API_KEY environment variable not set")
 
@@ -47,7 +47,7 @@ class PineconeStore:
 
             
     def query(sel,query):
-      pc = Pinecone(api_key="pcsk_4mkcnx_Eay9hXXKjz8DimVPPf2bG83G9uCFgS9XYtPtCnPW3JcaeaE1KwLVR8aeJdBDtuL")
+      pc = Pinecone(api_key=None)
 
       # To get the unique host for an index, 
       index = pc.Index(host="https://stock-ai-assitant-4dniii9.svc.aped-4627-b74a.pinecone.io")
