@@ -6,7 +6,7 @@ from llm.model_locator import LocalModelLocation
 async def main():
     print("Starting..")
     # Initialize providers
-    API_token="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"
+    API_token=None
     llm_provider = HuggingFaceProvider(model_name="Qwen/Qwen2.5-Coder-32B-Instruct",api_token=API_token,model_location=LocalModelLocation(cache_dir="./model_cache"))
     
     # Initialize vector store
