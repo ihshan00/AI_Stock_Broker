@@ -20,7 +20,7 @@ create_dirs:
 	mkdir -p $(DIRS)
 
 .PHONY: setup
-setup: venv create_dirs
+setup: venv 
 	$(PIP) install -r requirements.txt
 
 .PHONY: clean
