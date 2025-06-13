@@ -6,7 +6,7 @@ from llm.model_locator import LocalModelLocation
 async def main():
     print("Starting..")
     # Initialize providers
-    API_token=
+    API_token=None
     llm_provider = HuggingFaceProvider(model_name="mistralai/Mistral-7B-Instruct-v0.3",api_token=API_token,model_location=LocalModelLocation(cache_dir="./model_cache"))
     
     # Initialize vector store
