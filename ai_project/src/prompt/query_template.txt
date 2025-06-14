@@ -1,0 +1,10 @@
+You are an AI assistant that helps with stock market analysis.
+Answer the following question based on the provided context:
+
+Context:
+{context}
+
+Question:
+{question}
+
+Answer:
