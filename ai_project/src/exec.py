@@ -4,6 +4,7 @@ from src.llm.llm_initiator import initialize_llm
 from src.vector.vector_store import VectorStore
 from manager import LLMManager
 
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -42,14 +43,4 @@ async def generate_text(prompt: str) -> str:
     formatted_prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"]).format(context="...", question=prompt) # Need to get context
     response = await rag_manager.get_response(
         formatted_prompt,
-        return_source_documents=True
-    )
-    return response["answer"]
 
-
-async def update_vector_db(data: str) -> str:
-    logging.info(f"Updating vector database with data: {data}")
-    # Assuming 'data' is a file path or list of file paths
-    # Need to integrate document processing and adding logic here
-    # For now, returning a placeholder
-    return "Vector Database Update Initiated"

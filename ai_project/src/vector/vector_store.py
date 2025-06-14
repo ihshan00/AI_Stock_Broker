@@ -48,7 +48,7 @@ class VectorStore:
         #     index_name=self.index_name,
         #     embedding=self.embedding_provider.get_embeddings()
         # )
-        pinecone_api_key = None
+        pinecone_api_key = ''
         pc = Pinecone(api_key=pinecone_api_key)
         index = pc.Index(host="https://stock-ai-assitant-4dniii9.svc.aped-4627-b74a.pinecone.io")
         embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L12-v2')

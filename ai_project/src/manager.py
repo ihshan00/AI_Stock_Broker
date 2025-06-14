@@ -49,6 +49,7 @@ class LLMManager:
             chain_type="stuff",
             retriever=retriever,
             memory=None,
+            return_source_documents=True,
             chain_type_kwargs={
                 "prompt": None
             }
@@ -68,15 +69,16 @@ class LLMManager:
         """Get response using RAG"""
         if not self.qa_chain:
             raise ValueError("RAG system not initialized")
-            
-        result = self.qa_chain.invoke(
-            input=question,
-            return_source_documents=return_source_documents
+        
+        result =  self.qa_chain.invoke(
+            input=question
         )
+        
         if return_source_documents:
             # Assuming 'result' is a dictionary and contains the expected keys
+            
             return {
                 "answer": result.get("result"),  # Avoids KeyError if "result" is missing
-                "sources": [doc.metadata for doc in result.get("sources", [])]
+                "sources": [doc.metadata for doc in result.get("source_documents", [])]
             }
         return 
