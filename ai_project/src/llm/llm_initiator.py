@@ -1,4 +1,5 @@
-from langchain.llms import OpenAI, HuggingFaceHub
+from langchain.llms import OpenAI
+from langchain_huggingface import HuggingFaceEndpoint
 from langchain.embeddings import OpenAIEmbeddings, HuggingFaceEmbeddings
 from langchain.memory import ConversationBufferMemory
 from typing import List, Dict, Optional, Union, Any
@@ -58,17 +59,18 @@ class HuggingFaceProvider(BaseLLMProvider):
         model_config = self.model_location.get_model(self.model_name)
 
         if model_config["location"] == "remote":
-            return HuggingFaceHub(
-                repo_id=self.model_name,
-                huggingfacehub_api_token=self.api_token,
-                model_kwargs={"temperature": 0.7}
-            )
+            return HuggingFaceEndpoint(
+                    repo_id=self.model_name,
+                    temperature=0.7,
+                    huggingfacehub_api_token=self.api_token
+                )
         else:
             # For API-only usage without downloading
-            return HuggingFaceHub(
-                repo_id=self.model_name,
-                huggingfacehub_api_token=self.api_token
-            )
+            return HuggingFaceEndpoint(
+                    repo_id=self.model_name,
+                    temperature=0.7,
+                    huggingfacehub_api_token=self.api_token
+                )
 
     def get_embeddings(self):
         model_config = self.model_location.get_model(self.model_name)
