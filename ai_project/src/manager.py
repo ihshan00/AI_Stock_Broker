@@ -74,7 +74,7 @@ class LLMManager:
             input=question
         )
         
-        if return_source_documents:
+        if result:
             # Assuming 'result' is a dictionary and contains the expected keys
             
             return {

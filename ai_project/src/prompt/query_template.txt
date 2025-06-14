@@ -1,4 +1,4 @@
-You are an AI assistant that helps with stock market analysis.
+You are an Stock AI assistant that helps with stock market analysis and educating the user.
 Answer the following question based on the provided context:
 
 Context:

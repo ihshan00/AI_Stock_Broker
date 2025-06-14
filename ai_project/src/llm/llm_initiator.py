@@ -92,10 +92,10 @@ def initialize_llm(
     cache_dir: Optional[str] = None
 ):
     """Initializes the appropriate LLM provider based on model name and configuration."""
+    print("Model Name: ",model_name)
     if "gpt" in model_name.lower():
         return OpenAIProvider(model_name=model_name, temperature=temperature)
-    elif "flan" in model_name.lower() or "qwen" in model_name.lower():
+    else:
         model_location = LocalModelLocation(cache_dir=cache_dir) if cache_dir else RemoteModelLocation()
         return HuggingFaceProvider(model_name=model_name, api_token=api_token, model_location=model_location)
-    else:
-        raise ValueError(f"Unsupported model name: {model_name}")
+
