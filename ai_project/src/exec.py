@@ -1,44 +1,62 @@
-from manager import LLMManager
+import logging
+from utils.config_loader import load_config,load_text_file
+from llm.llm_initiator import initialize_llm
 from vector.vector_store import VectorStore
-from llm.llm_initiator import HuggingFaceProvider
-from llm.model_locator import LocalModelLocation
+from manager import LLMManager
+import os
+from langchain.prompts import PromptTemplate
+import time
 
-async def main():
-    print("Starting..")
-    # Initialize providers
-    API_token=None
-    llm_provider = HuggingFaceProvider(model_name="mistralai/Mistral-7B-Instruct-v0.3",api_token=API_token,model_location=LocalModelLocation(cache_dir="./model_cache"))
-    
-    # Initialize vector store
-    vector_store = VectorStore()
-    
-    # Initialize RAG manager
-    rag_manager = LLMManager(
-        llm_provider=llm_provider,
-        vector_store=vector_store
-    )
-    rag_manager.initialize()
-    print("Initialization is done")
-    # # Initialize document processor
-    # processor = DocumentProcessor(
-    #     chunk_size=1000,
-    #     chunk_overlap=200
-    # )
-    
-    # # Add documents
-    # file_paths = ["document1.pdf", "document2.txt"]
-    # rag_manager.process_and_add_documents(file_paths, processor)
-    
-    # Get response
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Load configuration
+base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))  
+config_path = os.path.join(base_dir,"ai_project", "config", "config.yaml")
+config = load_config(config_path)
+print("Config: ",config)
+# Initialize LLM
+llm = initialize_llm(
+    model_name=config.get("model_name"),
+    api_token=config.get("api_key"),
+    temperature=config.get("temperature"),
+    cache_dir=config.get("cache_dir")
+)
+
+# Initialize VectorStore
+vector_store = VectorStore()
+
+# Initialize RAG manager
+rag_manager = LLMManager(
+    llm_provider=llm,
+    vector_store=vector_store
+)
+rag_manager.initialize()
+logging.info("Initialization is done")
+
+# Load prompt template
+base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))  
+prompt_path = os.path.join(base_dir,config.get("prompt_template_path"))
+prompt_template = load_text_file(prompt_path)
+
+if not prompt_template:
+    logging.error("Failed to load prompt template.")
+    # Handle this error appropriately, maybe exit or use a default template
+
+async def generate_text(prompt: str) -> str:
+    logging.info(f"Generating text for prompt: {prompt}")
+    # Assuming rag_manager.get_response can handle a PromptTemplate object
+    # or you need to format the prompt manually
+    formatted_prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"]).format(context="...", question=prompt) 
+
+    start_time = time.time()
     response = await rag_manager.get_response(
-        "What are the two book mentioned here?",
-        return_source_documents=True
-    )
-    
-    print("Answer:", response["answer"])
-    print("Sources:", response["sources"])
+        formatted_prompt)
+    end_time = time.time()
+
+    print(f"Generation time: {end_time - start_time:.4f} seconds")
+    return response["answer"]
 
 
-if __name__=="__main__":
-    import asyncio
-    asyncio.run(main())
+async def update_vector_db(prompt: str) -> str:
+    pass

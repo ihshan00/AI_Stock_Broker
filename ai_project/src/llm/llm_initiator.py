@@ -10,8 +10,6 @@ from abc import ABC, abstractmethod
 from .model_locator import ModelLocation, RemoteModelLocation, LocalModelLocation
 from langchain_huggingface import HuggingFaceEndpoint
 
-
-
 class BaseLLMProvider(ABC):
     """Abstract base class for LLM providers"""
 
@@ -25,6 +23,7 @@ class BaseLLMProvider(ABC):
     @abstractmethod
     def get_embeddings(self):
         pass
+
 # Open AI Models
 class OpenAIProvider(BaseLLMProvider):
     """OpenAI implementation - Always remote"""
@@ -85,3 +84,18 @@ class HuggingFaceProvider(BaseLLMProvider):
                 model_name=self.model_name,
                 cache_folder=model_config.get("cache_dir")
             )
+
+def initialize_llm(
+    model_name: str,
+    api_token: Optional[str] = None,
+    temperature: float = 0.7,
+    cache_dir: Optional[str] = None
+):
+    """Initializes the appropriate LLM provider based on model name and configuration."""
+    print("Model Name: ",model_name)
+    if "gpt" in model_name.lower():
+        return OpenAIProvider(model_name=model_name, temperature=temperature)
+    else:
+        model_location = LocalModelLocation(cache_dir=cache_dir) if cache_dir else RemoteModelLocation()
+        return HuggingFaceProvider(model_name=model_name, api_token=api_token, model_location=model_location)
+
