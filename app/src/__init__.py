@@ -1,1 +1,1 @@
-from api_client import ChatAPIClient
+from .api_client import ChatAPIClient
