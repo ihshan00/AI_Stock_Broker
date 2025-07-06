@@ -6,6 +6,10 @@ from .manager import LLMManager
 import os
 from langchain.prompts import PromptTemplate
 import time
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -17,7 +21,7 @@ config = load_config(config_path)
 print("Config: ",config)
 # Initialize LLM
 llm = initialize_llm(
-    model_name=config.get("model_name"),
+    model_name=os.getenv("MODEL_NAME"),
     api_token=config.get("api_key"),
     temperature=config.get("temperature"),
     cache_dir=config.get("cache_dir")
