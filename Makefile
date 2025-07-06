@@ -2,7 +2,7 @@ PYTHON=./venv/bin/python3
 PIP=./venv/bin/pip
 
 # Define directories
-DIRS=ai_project/config ai_project/src/llm ai_project/src/prompt ai_project/src/utils ai_project/src/handlers ai_project/data ai_project/test ai_project/notebooks 
+DIRS=app/config app/src
 
 .PHONY: help
 help:
