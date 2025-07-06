@@ -1,4 +1,4 @@
-from .app.ui import build_interface
+from .src.ui import build_interface
 
 
 def main():
