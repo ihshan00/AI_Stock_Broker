@@ -1,8 +1,8 @@
 import logging
-from utils.config_loader import load_config,load_text_file
-from llm.llm_initiator import initialize_llm
-from vector.vector_store import VectorStore
-from manager import LLMManager
+from .utils.config_loader import load_config,load_text_file
+from .llm.llm_initiator import initialize_llm
+from .vector.vector_store import VectorStore
+from .manager import LLMManager
 import os
 from langchain.prompts import PromptTemplate
 import time
