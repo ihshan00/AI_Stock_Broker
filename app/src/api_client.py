@@ -11,13 +11,11 @@ class ChatAPIClient:
             raise ValueError("BACKEND_URL is not set in environment.")
         self.url = Config.BACKEND_URL
 
-    def send_message(self, message: str, history: list[tuple[str, str | None]]) -> tuple[str, str]:
-        """
-        Sends `message` and `history` to the backend, returns (user_msg, bot_reply).
-        """
-        payload = {"message": message, "history": history}
-        resp = requests.post(self.url, json=payload, timeout=10)
-        resp.raise_for_status()
-        data = resp.json()
-        bot_reply = data.get("reply") or "I couldn't process that."
-        return message, bot_reply
+   def send_message(self, message: str, history: list[tuple[str, str | None]]) -> tuple[str, str]:
+    payload = {"prompt": message}  # Only send 'prompt'
+    resp = requests.post(self.url, json=payload, timeout=10)
+    resp.raise_for_status()
+    data = resp.json()
+    bot_reply = data.get("response") or "No response from backend."
+    return message, bot_reply
+
