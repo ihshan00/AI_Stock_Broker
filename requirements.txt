@@ -38,6 +38,7 @@ langchain-pinecone==0.2.8
 langchain-tests==0.3.20
 langchain-text-splitters==0.3.8
 langsmith==0.3.45
+langfuse==3.1.2
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 marshmallow==3.26.1

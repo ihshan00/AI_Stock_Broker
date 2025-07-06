@@ -1,5 +1,7 @@
 from langchain.chains import LLMChain, RetrievalQA
 from typing import List, Dict, Optional, Union, Any
+from langfuse import Langfuse, get_client
+from langfuse.langchain import CallbackHandler
 
 class LLMManager:
     """Manager for RAG operations with LLM integration"""
@@ -31,6 +33,19 @@ class LLMManager:
         Question: {question}
         
         Helpful Answer:"""
+
+        
+        Langfuse(
+            secret_key="sk-lf-ce5daacd-05d2-47ad-9070-8a0c21de3046",
+            public_key="pk-lf-0ff7e4fb-4b3f-4ab1-b63d-eea4ba66c0f8",
+            host="https://cloud.langfuse.com"  
+        )
+        
+        # Get the configured client instance
+        langfuse = get_client()
+        
+        # Initialize the Langfuse handler
+        self.langfuse_handler = CallbackHandler()
         
     def initialize(self):
         """Initialize the RAG system"""
@@ -71,7 +86,8 @@ class LLMManager:
             raise ValueError("RAG system not initialized")
         
         result =  self.qa_chain.invoke(
-            input=question
+            input=question,
+            config={"callbacks": [self.langfuse_handler]}
         )
         
         if result:
